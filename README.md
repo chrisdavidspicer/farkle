@@ -37,6 +37,13 @@ Three 2’s = 200 points\
 Rolling a 1-2-3-4-5 in a single roll = 1500 points
 
 ## Wireframes
+![Wire Frame State 1](wireframe-1.png)
+![Wire Frame State 2](wireframe-2.png)
+![Wire Frame State 3](wireframe-3.png)
+![Wire Frame State 3A](wireframe-3A.png)
+![Wire Frame State 3B](wireframe-3B.png)
+![Wire Frame State 4](wireframe-4.png)
+![Wire Frame State 5](wireframe-5.png)
 
 ## User Stories
 * When I load the page, there are 5 unrolled dice on the screen.
