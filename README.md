@@ -3,15 +3,15 @@
 
 Roll to 5000 is a dice game that pits your luck against your probability skills, with a little bit of strategy thrown in! Two players will face off, rolling dice to see if they can find valuable combinations. Then they must make a difficult decision: keep the points or test their luck and roll for more!
 
-This is a fun game that uses a lot of the skills we’ve been using in class over the first couple weeks. There’s a lot of functionality, win and loss states, combinations, and possibilities of actions to take during a turn. It will be a fun and interesting challenge to code my way through the game, plugging in certain functions depending upon many conditionals, and applying a lot looping through arrays. It seems like a good test on my current skills, while also having a reasonable scope for the project time limit. And I also think it will be fun to play when it’s complete!
+This is a fun game that uses a lot of the skills we’ve been using in class over the first couple weeks. There’s a lot of functionality, win and loss states, combinations, and possibilities of actions to take during a turn. It will be a fun and interesting challenge to code my way through the game, plugging in certain functions depending upon many conditionals, and looping through a lot of arrays. It seems like a good test on my current skills, while also having a reasonable scope for the project time limit. And I also think it will be fun to play when it’s complete!
 
 ## Rules
 
 **Object of the game:** To be the first player to bank 5000 points.
 
-Two players take turns rolling 5 dice. On your turn, after every roll, you have the option to keep valuable dice, called counters.
+Two players take turns rolling 5 dice. On your turn, after every roll, you have the option to keep valuable dice, **called counters.**
 
->**Counters are 1s, 5s, or certain combinations of multiple dice.** See Dice Values chart below.
+>**Counters are 1's, 5's, or certain combinations of multiple dice.** See Dice Values chart below.
 
 After you decide which counters you’ll be keeping, you have the option to bank those points in your total score, or to roll the remaining dice - **called garbage** - and see if you can roll more counters.\
 If you manage to roll all 5 dice as counters, you may continue your turn by re-rolling all 5 dice, continuing to tabulate your score.\
