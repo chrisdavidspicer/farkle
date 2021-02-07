@@ -37,12 +37,19 @@ Three 2’s = 200 points\
 Rolling a 1-2-3-4-5 in a single roll = 1500 points
 
 ## Wireframes
+Game State 1
 ![Wire Frame State 1](https://app.box.com/shared/static/vrk14kzngon9kum7wkc0ss1tvqwhf4nv.png)
+Game State 2
 ![Wire Frame State 2](https://app.box.com/shared/static/6hrqnbey6q74sp9s042303jbopkln2aw.png)
+Game State 3
 ![Wire Frame State 3](https://app.box.com/shared/static/rm1kyubrc74wv7w3984afq6dkfd3toc8.png)
+Game State 3A
 ![Wire Frame State 3A](https://app.box.com/shared/static/7mm0wefg0tseessgj2fojgwablbyo2lm.png)
+Game State 3B
 ![Wire Frame State 3B](https://app.box.com/shared/static/45h9hscpd5u0nfmo352o2tirxw365x44.png)
+Game State 4
 ![Wire Frame State 4](https://app.box.com/shared/static/mwdmgwzvpcw3traaens5iuvhx7mcy92w.png)
+Game State 5
 ![Wire Frame State 5](https://app.box.com/shared/static/e25cfh2bldt3krln4crdu9elq439xqkp.png)
 
 ## User Stories
@@ -84,3 +91,4 @@ These goals are for fun, after MVP and stretch: what else can we do with this ga
 * Add more messages in the message box throughout the game.
 * Highlight dice that are counters, and gray out dice that are garbage.
 * Add sound effects for rolling and clicking on dice.
+* Add styling, possibly change dice face to make the game have a specific theme.
