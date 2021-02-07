@@ -37,13 +37,13 @@ Three 2’s = 200 points\
 Rolling a 1-2-3-4-5 in a single roll = 1500 points
 
 ## Wireframes
-![Wire Frame State 1](wireframe-1.png)
-![Wire Frame State 2](wireframe-2.png)
-![Wire Frame State 3](wireframe-3.png)
-![Wire Frame State 3A](wireframe-3A.png)
-![Wire Frame State 3B](wireframe-3B.png)
-![Wire Frame State 4](wireframe-4.png)
-![Wire Frame State 5](wireframe-5.png)
+![Wire Frame State 1](https://app.box.com/shared/static/vrk14kzngon9kum7wkc0ss1tvqwhf4nv.png)
+![Wire Frame State 2](https://app.box.com/shared/static/6hrqnbey6q74sp9s042303jbopkln2aw.png)
+![Wire Frame State 3](https://app.box.com/shared/static/rm1kyubrc74wv7w3984afq6dkfd3toc8.png)
+![Wire Frame State 3A](https://app.box.com/shared/static/7mm0wefg0tseessgj2fojgwablbyo2lm.png)
+![Wire Frame State 3B](https://app.box.com/shared/static/45h9hscpd5u0nfmo352o2tirxw365x44.png)
+![Wire Frame State 4](https://app.box.com/shared/static/mwdmgwzvpcw3traaens5iuvhx7mcy92w.png)
+![Wire Frame State 5](https://app.box.com/shared/static/e25cfh2bldt3krln4crdu9elq439xqkp.png)
 
 ## User Stories
 * When I load the page, there are 5 unrolled dice on the screen.
