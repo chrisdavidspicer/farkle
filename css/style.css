@@ -1,0 +1,105 @@
+/* * {
+      border: 1px solid black;
+      text-align: center;
+} */
+
+body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      background-color: rgb(183, 217, 232);
+}
+
+.game-info {
+      display: grid;
+      grid-template-columns: 15% 10% 1fr 10% 15%;
+      width: 100%;
+      height: 102px;
+}
+
+#player-2-score-box {
+      border: 1px solid black;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      width: 100%;
+}
+
+#player-2-wins-box {
+      border: 1px solid black;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      width: 100%;
+}
+
+#message-box {
+      border: 1px solid black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      width: 100%;
+}
+
+#player-1-wins-box {
+      border: 1px solid black;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      width: 100%;
+}
+
+#player-1-score-box {
+      border: 1px solid black;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      width: 100%;
+}
+
+h3 {
+      margin: 0 auto;
+}
+
+h4 {
+      margin: 0 auto;
+}
+
+p {
+      font-size: 2em;
+      margin: auto;
+}
+
+.all-dice {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      flex-direction: row;
+      width: 80%;
+      height: 200px;
+      margin: auto;
+}
+
+.dice {
+      border: 1px solid black;
+      min-width: 150px;
+      min-height: 150px;
+      margin: 10px;
+      border-radius: 30px;
+}
+
+#roll-button {
+      width: 150px;
+      height: 40px;
+      border-radius: 10px;
+}
+
+#keep-score-button {
+      width: 200px;
+      height: 50px;
+      border-radius: 12px;
+      margin: 10px;
+}
