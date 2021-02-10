@@ -2,8 +2,7 @@
 const FIRST_PLAYER = "Player 1"
 
 /* Game Logic Variables and State */
-
-let diceValues = [] // holds dice that have value after roll
+let diceValues = []
 
 let player1Score = 0
 let player2Score = 0
@@ -15,6 +14,7 @@ let foursTotal = 0;
 let fivesTotal = 0;
 let sixesTotal = 0;
 
+let currentPlayer = 'Player 1'
 
 /* DOM References */
 const rollButtonEl = document.querySelector('#roll-button')
@@ -24,20 +24,16 @@ const score1 = document.querySelector('#player-1-score')
 const score2 = document.querySelector('#player-2-score')
 
 /* Functions and Game Logic */
-
 const initialize = () => {
-      // Initialize game with original game state.
+      currentPlayer = FIRST_PLAYER
       
-      // Put 12345 dice images in place. *DONE*
       createDiceValues();
 
-      // Roll button value says roll *DONE*
       rollButtonEl.innerText = 'Roll the dice!'
-      // Scores are set at 0 *DONE*
+
       player1Score = 0
       player2Score = 0
       
-      // STRETCH: Message box says "Player 1, roll to start your turn" *DONE*
       messageBoxEl.textContent = 'Player 1, roll to start your turn!'
 }
 
@@ -52,12 +48,10 @@ const rollDice = () => {
 const createDiceValues = () => {
       diceValues.length = 0
       let allDice = diceEl.children;
-      // Randomize each dice and return a value, represented with correct photo *DONE*
       for(let i = 0; i < allDice.length; i++) {
             randValue = Math.floor(Math.random() * 6) + 1
             allDice[i].id = `dice-${randValue}`
             diceValues.push(randValue)
-            // push all values into an array holding dice side values (diceValues) *DONE*
       }
 }
 
@@ -83,13 +77,24 @@ const addScore = () => {
             sixesTotal = 600;
       }
       let roundScore = onesTotal + twosTotal + threesTotal + foursTotal + fivesTotal + sixesTotal
-      score1.innerText = roundScore
+      if(currentPlayer == 'Player 1') {
+            player1Score = roundScore + player1Score
+            score1.innerText = player1Score
+      } else {
+            player2Score = roundScore + player2Score
+            score2.innerText = player2Score
+      }
 }
 
 const checkForWin = () => {
-      // Check to see if a player has a total score of 5000 points
-
-      // Display "Player 1, you reached 5000 points! You win!"
+      if(player1Score >= 5000) {
+            messageBoxEl.textContent = 'Player 1, you reached 5000 points! You win!'
+      }
+      if(player2Score >= 5000) {
+            messageBoxEl.textContent = 'Player 2, you reached 5000 points! You win!'
+      } else {
+            return
+      }
 }
 
 const clearRoundScore = () => {
@@ -102,16 +107,13 @@ const clearRoundScore = () => {
 }
 
 const changePlayers = () => {
-
+      if(currentPlayer == "Player 1") {
+            currentPlayer = "Player 2"
+      } else if(currentPlayer == "Player 2") {
+            currentPlayer = "Player 1"
+      }
 }
 
 /* Event Listeners */
 document.addEventListener('DOMContentLoaded', initialize)
 rollButtonEl.addEventListener("click", rollDice)
-
-
-
-
-// Add ability to switch player
-
-// Figure out how to keep running score total
