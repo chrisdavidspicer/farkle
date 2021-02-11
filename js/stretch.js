@@ -335,3 +335,6 @@ diceEl.addEventListener("click", clickDice)
 // Need to reset clickedDice array when all 5 are clicked.
 // When all 5 dice have value, add new button that says Keep Score and Roll again.
 // Make it so you can't click dice until roll is clicked - add isGamePaused variable *DONE*
+
+
+// Add message that shows how many points player added to score.
