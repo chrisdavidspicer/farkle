@@ -26,7 +26,13 @@ let threeFives = 0;
 let fourFives = 0;
 let fiveFives = 0;
 
+let largeStraight = 0;
+
+let clickedDice = [];
+
 let isGameWon = false;
+
+let isGamePaused = true;
 
 /* DOM References */
 const rollButtonEl = document.querySelector('#roll-button')
@@ -36,13 +42,16 @@ const diceEl = document.querySelector('.all-dice')
 const messageBoxEl = document.querySelector('#message-box')
 const score1 = document.querySelector('#player-1-score')
 const score2 = document.querySelector('#player-2-score')
+const singleDiceEl = document.querySelectorAll('.dice')
 
 /* Functions and Game Logic */
 const initialize = () => {
-      currentPlayer = FIRST_PLAYER
+      currentPlayer = FIRST_PLAYER;
 
-      isGameWon = false
+      isGameWon = false;
       
+      isGamePaused = true;
+
       scoreButtonEl.classList.add("hidden");
       resetButtonEl.classList.add("hidden");
       rollButtonEl.classList.remove("hidden");
@@ -63,10 +72,12 @@ const initialize = () => {
 }
 
 const rollDice = () => {
-      messageBoxEl.textContent = ""
+      isGamePaused = false;
+      messageBoxEl.textContent = `${currentPlayer}, please select your dice.`
+      clearOutline();
       createDiceValues();
-      scoreButtonEl.classList.remove("hidden");
-      addScore();
+      // scoreButtonEl.classList.remove("hidden");
+      // addScore();
       rollButtonEl.classList.add("hidden");
 }
 
@@ -80,13 +91,60 @@ const createDiceValues = () => {
       }
 }
 
-const addScore = () => {
-      let rolledOnes = diceValues.filter(number => number === 1)
-      let rolledTwos = diceValues.filter(number => number === 2)
-      let rolledThrees = diceValues.filter(number => number === 3)
-      let rolledFours = diceValues.filter(number => number === 4)
-      let rolledFives = diceValues.filter(number => number === 5)
-      let rolledSixes = diceValues.filter(number => number === 6)
+// const addScore = () => {
+//       let rolledOnes = diceValues.filter(number => number === 1)
+//       let rolledTwos = diceValues.filter(number => number === 2)
+//       let rolledThrees = diceValues.filter(number => number === 3)
+//       let rolledFours = diceValues.filter(number => number === 4)
+//       let rolledFives = diceValues.filter(number => number === 5)
+//       let rolledSixes = diceValues.filter(number => number === 6)
+//       let rolledStraight = diceValues.sort(function(a, b){return a-b});
+
+//       if(rolledOnes.length < 3) {
+//             onesTotal = (rolledOnes.length * 100);
+//       } if(rolledOnes.length === 3) {
+//             threeOnes = 1000;
+//       } if(rolledOnes.length === 4) {
+//             fourOnes = 1100;
+//       } if(rolledOnes.length === 5) {
+//             fiveOnes = 1200;
+//       } if(rolledTwos.length >= 3) {
+//             twosTotal = 200;
+//       } if(rolledThrees.length >= 3) {
+//             threesTotal = 300;
+//       } if(rolledFours.length >= 3) {
+//             foursTotal = 400;
+//       } if(rolledFives.length < 3) {
+//             fivesTotal = (rolledFives.length * 50);
+//       } if(rolledFives.length === 3) {
+//             threeFives = 500;
+//       } if(rolledFives.length === 4) {
+//             fourFives = 550;
+//       } if(rolledFives.length === 5) {
+//             fiveFives = 600;
+//       }if(rolledSixes.length >= 3) {
+//             sixesTotal = 600;
+//       }if(rolledStraight.length === 5 && rolledStraight === [1, 2, 3, 4, 5]) {
+//             largeStraight = 1500;
+//       }
+
+
+//       roundScore = onesTotal + twosTotal + threesTotal + foursTotal + fivesTotal + sixesTotal +threeOnes + fourOnes + fiveOnes + threeFives + fourFives + fiveFives
+      
+//       if(roundScore === 0) {
+//             messageBoxEl.innerText = `${currentPlayer}, you rolled garbage! Your current round score is ${roundScore}.`
+//             rollButtonEl.classList.remove("hidden");
+//       }
+// }
+
+const addClickScore = () => {
+      let rolledOnes = clickedDice.filter(number => number === 1);
+      let rolledTwos = clickedDice.filter(number => number === 2);
+      let rolledThrees = clickedDice.filter(number => number === 3);
+      let rolledFours = clickedDice.filter(number => number === 4);
+      let rolledFives = clickedDice.filter(number => number === 5);
+      let rolledSixes = clickedDice.filter(number => number === 6);
+      let rolledStraight = clickedDice.sort(function(a, b){return a-b}).toString();
 
       if(rolledOnes.length < 3) {
             onesTotal = (rolledOnes.length * 100);
@@ -112,10 +170,14 @@ const addScore = () => {
             fiveFives = 600;
       }if(rolledSixes.length >= 3) {
             sixesTotal = 600;
+      }if(rolledStraight === "1,2,3,4,5") {
+            largeStraight = 1500;
+            onesTotal = 0;
+            fivesTotal = 0;
       }
-      roundScore = onesTotal + twosTotal + threesTotal + foursTotal + fivesTotal + sixesTotal +threeOnes + fourOnes + fiveOnes + threeFives + fourFives + fiveFives
+      roundScore = onesTotal + twosTotal + threesTotal + foursTotal + fivesTotal + sixesTotal +threeOnes + fourOnes + fiveOnes + threeFives + fourFives + fiveFives + largeStraight
       
-      messageBoxEl.innerText = `${currentPlayer}, your current round score is ${roundScore}.`
+      messageBoxEl.innerText = `${currentPlayer}, you have selected ${clickedDice.length} dice. Your current round score is ${roundScore}.`
 }
 
 const keepScore = () => {
@@ -131,7 +193,12 @@ const keepScore = () => {
             }
       }
       clearRoundScore();
+      
+      clickedDice = [];
+
       checkForWin();
+
+      isGamePaused = true;
 }
 
 const checkForWin = () => {
@@ -162,20 +229,21 @@ const clearRoundScore = () => {
       threeFives = 0;
       fourFives = 0;
       fiveFives = 0;
+      largeStraight = 0;
 }
 
 const changePlayers = () => {
       if(currentPlayer === "Player 1") {
             currentPlayer = "Player 2"
             if(roundScore < 350 && player1Score < 350) {
-                  messageBoxEl.textContent = `You need 350 points to get on the board! ${currentPlayer}, it's your turn!`
+                  messageBoxEl.textContent = `You need 350 points to get on the board. ${currentPlayer}, it's your turn!`
             } else {
             messageBoxEl.textContent = `${currentPlayer}, it's your turn!`
             }
       } else if(currentPlayer === "Player 2") {
             currentPlayer = "Player 1"
             if(roundScore < 350 && player2Score < 350) {
-                  messageBoxEl.textContent = `You need 350 points to get on the board! ${currentPlayer}, it's your turn!`
+                  messageBoxEl.textContent = `You need 350 points to get on the board. ${currentPlayer}, it's your turn!`
             } else {
             messageBoxEl.textContent = `${currentPlayer}, it's your turn!`
             }
@@ -189,60 +257,81 @@ const endGame = () => {
             resetButtonEl.classList.remove("hidden");
 }
 
+const clickDice = (event) => {
+      if(isGamePaused === true) return;
+      let selectedDice = event.target;
+
+      if(selectedDice.classList.contains('red')) {
+            console.log("toggle off")
+            selectedDice.classList.remove('red');
+      }
+      else {
+            if(selectedDice == diceEl) {
+                  return
+            }
+            selectedDice.classList.toggle('red'); /*.toggle instead, later on */
+            if(clickedDice.includes(selectedDice) === false) {
+                  let diceId = selectedDice.id
+                  let diceInt = parseInt(diceId.charAt(diceId.length - 1))
+                  clickedDice.push(diceInt);
+            } /*else {
+                  const hasRed = () => {
+                        if(selectedDice.classList.contains('red')) {
+                              return
+                        }
+                  }
+                  let diceIndex = clickedDice.findIndex(hasRed)
+                  clickedDice.splice(diceIndex, 1)
+            }*/
+            addClickScore();
+      
+            if(clickedDice.length > 0) {
+                  scoreButtonEl.classList.remove("hidden");
+            }
+
+      }
+
+
+}
+
+const clearOutline = () => {
+      for(let i = 0; i < singleDiceEl.length; i++) {
+            if(singleDiceEl[i].classList.contains('red')) {
+                  singleDiceEl[i].classList.remove('red')
+            }
+      }
+}
+
 /* Event Listeners */
 document.addEventListener('DOMContentLoaded', initialize)
 rollButtonEl.addEventListener("click", rollDice)
 scoreButtonEl.addEventListener("click", keepScore)
 resetButtonEl.addEventListener("click", initialize)
+diceEl.addEventListener("click", clickDice)
 
 /*------Game End------*/
-// Display winner text in message box. *DONE*
-// Hide roll button *DONE*
-// Show reset button *DONE*
-// Have reset button launch initialize *DONE*
-// Set player scores back to 0 *DONE*
-// Put rollDice in if conditional, if isGameWon = True, endGame(), else... *DONE*
-// Build endGame function - change button states *DONE*
-// Build endGame function - declare winner *DONE*
-// Solve player 1 winning issue. !!!!!
-// Decide if this needs a function or gamestate *DONE*
+// DEBUG player 1 winning issue
+
+/*-----Roll Button-----*/
 
 /*-----Keep Score Button-----*/
-// Player must push keep score button to log score *DONE*
-// Button is not visible at beginning or end of game *DONE*
-// Button becomes visible after first roll *DONE*
-// Hide roll button until keep score is clicked *DONE*
-// After button is clicked, display who's turn it is in message box *DONE*
-// Debug trouble with changing players and scoring *DONE*
-// STRETCH: Button becomes visible after at least one die is clicked !!!!!
 
 /*-----Player Score -----*/
-// Player doesn't get on scoreboard until they have 350 points *DONE*
-// Code in three of a kind for 1's and 5's *DONE*
-// Code in large straight !!!!!
-// Update message box with current round score before keep score button is pushed *DONE*
+// Code in large straight
 
 /*-----Clicking Dice-----*/
-// Display, Player X, please select your dice if there's valuable dice
+// DEBUG clearing red border ON ALL DICE when clicking keep score.
+// DEBUG Display, Player X, please select your dice if there's valuable dice
 // Or display, Player X, you rolled garbage and scored 0 points. Player X it's your turn
-// Make dice clickable
 // Dice should have value before they are clicked
 // Make dice clickable if they have value
 // Dice are not clickable if they have no value
-// Tabulate score of clicked dice
-// Display score of clicked dice in message box
 // Display how many dice player has clicked in message box
 // Allow option to click roll or keep score after clicking dice
 // If clicked keep score, add round score to player score
-
-
-
-
-
-
-
-
-
-// if 1 = 1 or 2, we're good
-// if 1 equals 3, we're good
-// if 1 equals 4 or five, we want that to be 100 each
+// To gray out dice, for each dice, if they DON'T meet score conditionals, gray them out.
+// To solve problem with dice having value: calculate value of dice before and after. Clicking puts them in new array.
+// Need to reset clickedDice array every time keep score is clicked *DONE*
+// Need to reset clickedDice array when all 5 are clicked.
+// When all 5 dice have value, add new button that says Keep Score and Roll again.
+// Make it so you can't click dice until roll is clicked - add isGamePaused variable *DONE*

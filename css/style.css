@@ -146,7 +146,8 @@ p {
 }
 
 .red {
-      border: 5px solid rgba(250, 100, 100, 0.5);
+      border: 5px dashed rgba(250, 100, 100);
+      border-radius: 25px;
 }
 
 .gray {

@@ -67,7 +67,6 @@ const diceEl = document.querySelector('.all-dice')
 const messageBoxEl = document.querySelector('#message-box')
 
 /* Functions and Game Logic */
-
 const initialize = () => {
       // Initialize game with original game state.
       
@@ -206,10 +205,6 @@ const createDiceValues = () => {
 
 //  I want to click on submit button after it's clicked
 
-
-
-
-
 const clickDice = (event) => {
       // STRETCH: remove or add dice from the clickable dice array
       let selectedDice = event.target
@@ -223,23 +218,10 @@ const clickDice = (event) => {
 
       if(!selectedDice.classList.contains('red')) {
             clickedDice.push(parseInt(index))
-      } /*else if(selectedDice.classList.contains('red')) {
-            let clickIndex = clickedDice.findIndex(parseInt(index))
-            clickedDice.splice(clickIndex, 1)
-      }*/
-      // STRETCH: Calculate current round score with each dice clicked/unclicked.
-      // for(const combo in winCombos) {
-      //       let Object.values(winCombos)
-      //       if(clickedDice.includes(combo.value)) {
-      //             let clickIndex = clickedDice.findIndex(combo.value)
-      //             clickedDice.splice(clickIndex, 1)
-      //             classList.add('gray')
-      //       }
-      // }
+      }
       console.log(clickedDice)
       console.log(Object.values(winCombos))
 }
-
 
 const keepScore = () => {
       // Value of roll is tabulated and added to player's total score.
