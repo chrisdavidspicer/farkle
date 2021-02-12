@@ -272,7 +272,7 @@ const clickDice = (event) => {
       if(isGamePaused === true) return;
       let selectedDice = event.target;
       let clickedDiceIndex = clickedDice.indexOf(selectedDice);
-      // let unClickedDiceIndex = unClickedDice.indexOf(selectedDice);
+      let unClickedDiceIndex = unClickedDice.indexOf(selectedDice);
       
       if(clickedDice.includes(selectedDice) === false) {
             clickedDice.push(selectedDice);
@@ -287,11 +287,6 @@ const clickDice = (event) => {
                   return
             }
             selectedDice.classList.toggle('red');
-            // if(clickedDice.includes(selectedDice) === false) {
-            //       let diceId = selectedDice.id
-            //       let diceInt = parseInt(diceId.charAt(diceId.length - 1))
-            //       clickedDice.push(diceInt);
-            // }
 
             
             if(clickedDice.length > 0) {
@@ -305,11 +300,19 @@ const clickDice = (event) => {
 
 
       for(let i = 0; i < diceValues.length; i++) {
-            if(diceValues[i].classList.contains('red')) {
-                  return
-            } else {
-                  unClickedDice.push(diceValues[i])
+            if(unClickedDice.includes(selectedDice)) {
+                  break
             }
+            if(diceValues[i].classList.contains('red') === false) {
+                  unClickedDice.push(diceValues[i]);
+            }
+
+
+            // }if(unClickedDice.includes(diceValues[i]) === true) {
+            //       return
+            // } else if(unClickedDice.includes(diceValues[i]) === false) {
+            //       unClickedDice.push(diceValues[i]);
+            // }
       }
 
 
