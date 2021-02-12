@@ -29,6 +29,7 @@ let fiveFives = 0;
 let largeStraight = 0;
 
 let clickedDice = [];
+let unClickedDice = [];
 
 let isGameWon = false;
 
@@ -36,6 +37,7 @@ let isGamePaused = true;
 
 /* DOM References */
 const rollButtonEl = document.querySelector('#roll-button')
+const reRollButtonEl = document.querySelector('#re-roll-button')
 const scoreButtonEl = document.querySelector('#keep-score-button')
 const resetButtonEl = document.querySelector('#reset-button')
 const diceEl = document.querySelector('.all-dice')
@@ -56,6 +58,8 @@ const initialize = () => {
       resetButtonEl.classList.add("hidden");
       rollButtonEl.classList.remove("hidden");
       
+      clearOutline();
+
       createDiceValues();
 
       rollButtonEl.innerText = 'Roll the dice!'
@@ -76,8 +80,6 @@ const rollDice = () => {
       messageBoxEl.textContent = `${currentPlayer}, please select your dice.`
       clearOutline();
       createDiceValues();
-      // scoreButtonEl.classList.remove("hidden");
-      // addScore();
       rollButtonEl.classList.add("hidden");
 }
 
@@ -86,8 +88,9 @@ const createDiceValues = () => {
       let allDice = diceEl.children;
       for(let i = 0; i < allDice.length; i++) {
             randValue = Math.floor(Math.random() * 6) + 1
-            allDice[i].id = `dice-${randValue}`
-            diceValues.push(randValue)
+            allDice[i].dataset.value = `${randValue}`
+            allDice[i].className = `dice dice-${randValue}`
+            diceValues.push(allDice[i])
       }
 }
 
@@ -137,14 +140,21 @@ const createDiceValues = () => {
 //       }
 // }
 
-const addClickScore = () => {
-      let rolledOnes = clickedDice.filter(number => number === 1);
-      let rolledTwos = clickedDice.filter(number => number === 2);
-      let rolledThrees = clickedDice.filter(number => number === 3);
-      let rolledFours = clickedDice.filter(number => number === 4);
-      let rolledFives = clickedDice.filter(number => number === 5);
-      let rolledSixes = clickedDice.filter(number => number === 6);
-      let rolledStraight = clickedDice.sort(function(a, b){return a-b}).toString();
+const updateClickScore = () => {
+      let clickedDiceValues = []
+
+      for(let i = 0; i < clickedDice.length; i++) {
+            // console.log(clickedDice[i].dataset.value)
+            clickedDiceValues.push(parseInt(clickedDice[i].dataset.value))
+      }
+
+      let rolledOnes = clickedDiceValues.filter(number => number === 1);
+      let rolledTwos = clickedDiceValues.filter(number => number === 2);
+      let rolledThrees = clickedDiceValues.filter(number => number === 3);
+      let rolledFours = clickedDiceValues.filter(number => number === 4);
+      let rolledFives = clickedDiceValues.filter(number => number === 5);
+      let rolledSixes = clickedDiceValues.filter(number => number === 6);
+      let rolledStraight = clickedDiceValues.sort(function(a, b){return a-b}).toString();
 
       if(rolledOnes.length < 3) {
             onesTotal = (rolledOnes.length * 100);
@@ -176,7 +186,8 @@ const addClickScore = () => {
             fivesTotal = 0;
       }
       roundScore = onesTotal + twosTotal + threesTotal + foursTotal + fivesTotal + sixesTotal +threeOnes + fourOnes + fiveOnes + threeFives + fourFives + fiveFives + largeStraight
-      
+      console.log(roundScore);
+      console.log(clickedDiceValues);
       messageBoxEl.innerText = `${currentPlayer}, you have selected ${clickedDice.length} dice. Your current round score is ${roundScore}.`
 }
 
@@ -238,14 +249,14 @@ const changePlayers = () => {
             if(roundScore < 350 && player1Score < 350) {
                   messageBoxEl.textContent = `You need 350 points to get on the board. ${currentPlayer}, it's your turn!`
             } else {
-            messageBoxEl.textContent = `${currentPlayer}, it's your turn!`
+            messageBoxEl.textContent = `You added ${roundScore} points to your score. ${currentPlayer}, it's your turn!`
             }
       } else if(currentPlayer === "Player 2") {
             currentPlayer = "Player 1"
             if(roundScore < 350 && player2Score < 350) {
                   messageBoxEl.textContent = `You need 350 points to get on the board. ${currentPlayer}, it's your turn!`
             } else {
-            messageBoxEl.textContent = `${currentPlayer}, it's your turn!`
+            messageBoxEl.textContent = `You added ${roundScore} points to your score. ${currentPlayer}, it's your turn!`
             }
       }
 }
@@ -260,36 +271,55 @@ const endGame = () => {
 const clickDice = (event) => {
       if(isGamePaused === true) return;
       let selectedDice = event.target;
+      let clickedDiceIndex = clickedDice.indexOf(selectedDice);
+      // let unClickedDiceIndex = unClickedDice.indexOf(selectedDice);
+      
+      if(clickedDice.includes(selectedDice) === false) {
+            clickedDice.push(selectedDice);
+      } else {
+            clickedDice.splice(clickedDiceIndex, 1);
+      }
 
       if(selectedDice.classList.contains('red')) {
-            console.log("toggle off")
             selectedDice.classList.remove('red');
-      }
-      else {
+      } else {
             if(selectedDice == diceEl) {
                   return
             }
-            selectedDice.classList.toggle('red'); /*.toggle instead, later on */
-            if(clickedDice.includes(selectedDice) === false) {
-                  let diceId = selectedDice.id
-                  let diceInt = parseInt(diceId.charAt(diceId.length - 1))
-                  clickedDice.push(diceInt);
-            } /*else {
-                  const hasRed = () => {
-                        if(selectedDice.classList.contains('red')) {
-                              return
-                        }
-                  }
-                  let diceIndex = clickedDice.findIndex(hasRed)
-                  clickedDice.splice(diceIndex, 1)
-            }*/
-            addClickScore();
-      
+            selectedDice.classList.toggle('red');
+            // if(clickedDice.includes(selectedDice) === false) {
+            //       let diceId = selectedDice.id
+            //       let diceInt = parseInt(diceId.charAt(diceId.length - 1))
+            //       clickedDice.push(diceInt);
+            // }
+
+            
             if(clickedDice.length > 0) {
                   scoreButtonEl.classList.remove("hidden");
             }
-
+            
       }
+      
+      updateClickScore();
+
+
+
+      for(let i = 0; i < diceValues.length; i++) {
+            if(diceValues[i].classList.contains('red')) {
+                  return
+            } else {
+                  unClickedDice.push(diceValues[i])
+            }
+      }
+
+
+
+      // if(clickedDice.includes(
+
+
+
+
+
 
 
 }
@@ -302,36 +332,75 @@ const clearOutline = () => {
       }
 }
 
+const reRollDice = () => {
+      isGamePaused = false;
+      messageBoxEl.textContent = `${currentPlayer}, please select more dice.`
+      for(let i = 0; i < singleDiceEl.length; i++) {
+            if(singleDiceEl[i].classList.contains('red')) {
+                  return
+            } else {
+                  singleDiceEl[i].classList.remove('red')
+                  // index of
+
+            }
+      }
+}
+
 /* Event Listeners */
 document.addEventListener('DOMContentLoaded', initialize)
 rollButtonEl.addEventListener("click", rollDice)
+reRollButtonEl.addEventListener("click", reRollDice)
 scoreButtonEl.addEventListener("click", keepScore)
 resetButtonEl.addEventListener("click", initialize)
 diceEl.addEventListener("click", clickDice)
 
 /*------Game End------*/
-// DEBUG player 1 winning issue
 
 /*-----Roll Button-----*/
 
 /*-----Keep Score Button-----*/
 
 /*-----Player Score -----*/
-// Code in large straight
 
 /*-----Clicking Dice-----*/
-// DEBUG clearing red border ON ALL DICE when clicking keep score.
-// DEBUG Display, Player X, please select your dice if there's valuable dice
-// Or display, Player X, you rolled garbage and scored 0 points. Player X it's your turn
-// Dice should have value before they are clicked
-// Make dice clickable if they have value
-// Dice are not clickable if they have no value
-// Display how many dice player has clicked in message box
-// Allow option to click roll or keep score after clicking dice
-// If clicked keep score, add round score to player score
-// To gray out dice, for each dice, if they DON'T meet score conditionals, gray them out.
-// To solve problem with dice having value: calculate value of dice before and after. Clicking puts them in new array.
-// Need to reset clickedDice array every time keep score is clicked *DONE*
-// Need to reset clickedDice array when all 5 are clicked.
-// When all 5 dice have value, add new button that says Keep Score and Roll again.
-// Make it so you can't click dice until roll is clicked - add isGamePaused variable *DONE*
+// HARD: Dice should have value before they are clicked, so we can determine which dice to gray out
+      // To gray out dice, for each dice, if they DON'T meet score conditionals, gray them out.
+      // MEDIUM: Display "Player X, you rolled garbage and scored 0 points. Player X it's your turn"
+      // HARD: Make unvaluable dice unclickable (and gray them out), make valuable dice clickable
+// MEDIUM: Add ability to re-roll and continue tabulating score after all 5 dice are clicked (reset clickedDice array)
+      // When all 5 dice have value, add new button that says Keep Score and Roll again.
+// EASY: Hide and show re-roll button at the correct times.
+// HARD: Give player option to roll again or to keep score after selecting dice
+// MEDIUM: Fix issue when player 1 wins
+// EASY: Put scoring guide on the bottom of the page
+// EASY: Put rules guide on bottom of page
+
+
+// remove clicked dice from diceValues array at beginning of re-roll function
+      //  maybe moving to a new, unclickable array?
+//  do that by finding index of dice that contain red class, and splicing them from diceValues array
+// modify createDiceValues function inside re-roll to work with new array length.
+// freeze dice that were already clicked, so after re-roll, they can't be unclicked
+// will also have to remove previous clicked dice from clickedDice array.
+
+
+
+
+// Dice sit in:
+      // diceValues array (all dice)
+      // class of dice (all dice)
+      // class of dice-X (individual dice of same number)
+      // individual dataset value (individual dice of same number)
+      // class of red (dice divs of clicked dice)
+      // clickedDice array (dice divs of clicked dice)
+      // clickedDiceValues array (integer values of clicked dice)
+
+// When I execute the rollDice function, I randomize the diceValues array.
+// When I execute the reRollDice Function, I need to randomize a new array.
+// The new array will be dice that are not clicked.
+// If dice do not have the class of red, put them into a new array - unClickedDice
+// Add and remove instead of continuing to add
+// copy the roll and randomize function into re-roll to work with unClickedDice
+// Then we will need a new clickedDice array
+// a new clickedDiceValues array
+// and new score conditionals

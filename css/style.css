@@ -92,6 +92,12 @@ p {
       border-radius: 10px;
 }
 
+#re-roll-button {
+      width: 150px;
+      height: 40px;
+      border-radius: 10px;
+}
+
 #reset-button {
       width: 150px;
       height: 40px;
@@ -105,42 +111,42 @@ p {
       margin: 10px;
 }
 
-#dice-1 {
+.dice-1 {
       background-image: url("https://kevan.org/images/liarsdice/die1.png");
       background-size: cover;
       background-repeat: no-repeat;
       transform: rotate(8deg)
 }
 
-#dice-2 {
+.dice-2 {
       background-image: url("https://kevan.org/images/liarsdice/die2.png");
       background-size: cover;
       background-repeat: no-repeat;
       transform: rotate(-5deg)
 }
 
-#dice-3 {
+.dice-3 {
       background-image: url("https://kevan.org/images/liarsdice/die3.png");
       background-size: cover;
       background-repeat: no-repeat;
       transform: rotate(5deg)
 }
 
-#dice-4 {
+.dice-4 {
       background-image: url("https://kevan.org/images/liarsdice/die4.png");
       background-size: cover;
       background-repeat: no-repeat;
       transform: rotate(-7deg)
 }
 
-#dice-5 {
+.dice-5 {
       background-image: url("https://kevan.org/images/liarsdice/die5.png");
       background-size: cover;
       background-repeat: no-repeat;
       transform: rotate(6deg)
 }
 
-#dice-6 {
+.dice-6 {
       background-image: url("https://kevan.org/images/liarsdice/die6.png");
       background-size: cover;
       background-repeat: no-repeat;
