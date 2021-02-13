@@ -55,7 +55,7 @@ const initialize = () => {
       player1Score = 0;
       player2Score = 0;
       holdScore = 0;
-      clearRoundScore();
+      roundScore = 0;
       score1.innerText = player1Score;
       score2.innerText = player2Score;
       rollButtonEl.innerText = 'Roll the dice!';
@@ -73,11 +73,11 @@ const rollDice = () => {
       messageBoxEl.textContent = `${currentPlayer}, please select your dice.`;
       rollButtonEl.classList.add("hidden");
       holdScore = 0;
+      roundScore = 0;
       clearOverlay();
       createUnClickedArray();
       createDiceValues();
       updateUnClickedScore();
-      clearRoundScore();
 }
 const createDiceValues = () => {
       diceValues.length = 0;
@@ -140,7 +140,6 @@ const updateUnClickedScore = () => {
             // console.log(clickedDice[i].dataset.value)
             unClickedDiceValues.push(parseInt(unClickedDice[i].dataset.value));
       }
-      console.log(unClickedDiceValues)
       let rolledOnes = unClickedDiceValues.filter(number => number === 1);
       let rolledTwos = unClickedDiceValues.filter(number => number === 2);
       let rolledThrees = unClickedDiceValues.filter(number => number === 3);
@@ -180,12 +179,20 @@ const updateUnClickedScore = () => {
             fivesTotal = 0;
       }
       let tempScore = onesTotal + twosTotal + threesTotal + foursTotal + fivesTotal + sixesTotal +threeOnes + fourOnes + fiveOnes + threeFives + fourFives + fiveFives + largeStraight;
+      // if(unClickedDice.length === 0) {
+      //       holdScore = roundScore;
+      //       clickedDice = diceValues.filter(dice => dice.classList.contains('frozen'));
+      //       for(let i = 0; i < clickedDice.length; i++) {
+      //             diceEl[i].classList.remove('frozen');
+      //       }
+      //       clickedDice = []
+      // }
       if(tempScore === 0) {
             if(currentPlayer === "Player 1") {
                   messageBoxEl.innerText = `${currentPlayer}, you rolled garbage and scored 0 points. It's now Player 2's turn.`;
                   rollButtonEl.classList.remove('hidden');
                   currentPlayer = "Player 2";
-                  clearRoundScore();
+                  roundScore = 0;
                   freezeDice();
                   clickedDice = [];
                   isGamePaused = true;
@@ -194,14 +201,12 @@ const updateUnClickedScore = () => {
                   messageBoxEl.innerText = `${currentPlayer}, you rolled garbage and scored 0 points. It's now Player 1's turn.`;
                   rollButtonEl.classList.remove('hidden');
                   currentPlayer = "Player 1";
-                  clearRoundScore();
+                  roundScore = 0;
                   freezeDice();
                   clickedDice = [];
                   isGamePaused = true;
                   reRollButtonEl.classList.add("hidden");
             }
-      } else {
-            return;
       }
 }
 const updateClickScore = () => {
@@ -250,7 +255,7 @@ const updateClickScore = () => {
       let tempScore = onesTotal + twosTotal + threesTotal + foursTotal + fivesTotal + sixesTotal +threeOnes + fourOnes + fiveOnes + threeFives + fourFives + fiveFives + largeStraight;
       roundScore = holdScore + tempScore;
       messageBoxEl.innerText = `${currentPlayer}, you have selected ${clickedDice.length} dice. Your current round score is ${roundScore}.`;
-      // clearRoundScore();
+      // roundScore = 0;
 }
 const keepScore = () => {
       if(currentPlayer === 'Player 1') {
@@ -264,6 +269,7 @@ const keepScore = () => {
             score2.innerText = player2Score;
             }
       }
+      roundScore = 0;
       freezeDice();
       holdScore = 0;
       clickedDice = [];
@@ -284,21 +290,6 @@ const checkForWin = () => {
             scoreButtonEl.classList.add("hidden");
       }
 }
-const clearRoundScore = () => {
-      onesTotal = 0;
-      twosTotal = 0;
-      threesTotal = 0;
-      foursTotal = 0;
-      fivesTotal = 0;
-      sixesTotal = 0;
-      threeOnes = 0;
-      fourOnes = 0;
-      fiveOnes = 0;
-      threeFives = 0;
-      fourFives = 0;
-      fiveFives = 0;
-      largeStraight = 0;
-}
 const changePlayers = () => {
       if(currentPlayer === "Player 1") {
             currentPlayer = "Player 2";
@@ -315,7 +306,6 @@ const changePlayers = () => {
             messageBoxEl.textContent = `You added ${roundScore} points to your score. ${currentPlayer}, it's your turn!`;
             }
       }
-      clearRoundScore();
 }
 const endGame = () => {
             messageBoxEl.textContent = `${currentPlayer}, you reached 5000 points! You win!`;
@@ -373,7 +363,6 @@ const reRollDice = () => {
       freezeDice();
       clickedDice = []
       updateUnClickedScore();
-      clearRoundScore();
 }
 const createUnClickedArray = () => {
       unClickedDice = [];
@@ -411,6 +400,12 @@ diceEl.addEventListener("click", clickDice);
       // HARD: Make unvaluable dice unclickable (and gray them out), make valuable dice clickable
 // MEDIUM: Add ability to re-roll and continue tabulating score after all 5 dice are clicked (reset clickedDice array)
       // When all 5 dice have value, add new button that says Keep Score and Roll again.
+// DEBUG issue when score is automatically added with clicked three of a kind
+
+
+
+
+
 
 // if unclickabledice length === 0
 // log holdscore
@@ -418,6 +413,12 @@ diceEl.addEventListener("click", clickDice);
 // clear frozen class
 // don't change players
 
+// if(unClickedDice.length === 0) {
+//       reRollDice();
+//       for(let i = 0; i < unClickedDice.length; i++) {
+//             diceEl[i].classList.remove('frozen');
+//       }
+// }
 
 
 
