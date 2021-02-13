@@ -89,65 +89,32 @@ const createDiceValues = () => {
             diceValues.push(allDice[i]);
       }
 }
-// const addScore = () => {
-//       let rolledOnes = diceValues.filter(number => number === 1)
-//       let rolledTwos = diceValues.filter(number => number === 2)
-//       let rolledThrees = diceValues.filter(number => number === 3)
-//       let rolledFours = diceValues.filter(number => number === 4)
-//       let rolledFives = diceValues.filter(number => number === 5)
-//       let rolledSixes = diceValues.filter(number => number === 6)
-//       let rolledStraight = diceValues.sort(function(a, b){return a-b});
 
-//       if(rolledOnes.length < 3) {
-//             onesTotal = (rolledOnes.length * 100);
-//       } if(rolledOnes.length === 3) {
-//             threeOnes = 1000;
-//       } if(rolledOnes.length === 4) {
-//             fourOnes = 1100;
-//       } if(rolledOnes.length === 5) {
-//             fiveOnes = 1200;
-//       } if(rolledTwos.length >= 3) {
-//             twosTotal = 200;
-//       } if(rolledThrees.length >= 3) {
-//             threesTotal = 300;
-//       } if(rolledFours.length >= 3) {
-//             foursTotal = 400;
-//       } if(rolledFives.length < 3) {
-//             fivesTotal = (rolledFives.length * 50);
-//       } if(rolledFives.length === 3) {
-//             threeFives = 500;
-//       } if(rolledFives.length === 4) {
-//             fourFives = 550;
-//       } if(rolledFives.length === 5) {
-//             fiveFives = 600;
-//       }if(rolledSixes.length >= 3) {
-//             sixesTotal = 600;
-//       }if(rolledStraight.length === 5 && rolledStraight === [1, 2, 3, 4, 5]) {
-//             largeStraight = 1500;
-//       }
+// if each array is less than 3, give it gray class, which can't be clicked, but will be rerolled.
 
 
-//       roundScore = onesTotal + twosTotal + threesTotal + foursTotal + fivesTotal + sixesTotal +threeOnes + fourOnes + fiveOnes + threeFives + fourFives + fiveFives
-      
-//       if(roundScore === 0) {
-//             messageBoxEl.innerText = `${currentPlayer}, you rolled garbage! Your current round score is ${roundScore}.`
-//             rollButtonEl.classList.remove("hidden");
-//       }
-// }
+
+
+
 const updateUnClickedScore = () => {
       let unClickedDiceValues = [];
       for(let i = 0; i < unClickedDice.length; i++) {
-            // console.log(clickedDice[i].dataset.value)
             unClickedDiceValues.push(parseInt(unClickedDice[i].dataset.value));
       }
-      console.log(unClickedDiceValues)
       let rolledOnes = unClickedDiceValues.filter(number => number === 1);
+      console.log("rolledones", rolledOnes)
       let rolledTwos = unClickedDiceValues.filter(number => number === 2);
+      console.log("rolledtwos", rolledTwos)
       let rolledThrees = unClickedDiceValues.filter(number => number === 3);
+      console.log("rolledthrees", rolledThrees)
       let rolledFours = unClickedDiceValues.filter(number => number === 4);
+      console.log("rolledfours", rolledFours)
       let rolledFives = unClickedDiceValues.filter(number => number === 5);
+      console.log("rolledfives", rolledFives)
       let rolledSixes = unClickedDiceValues.filter(number => number === 6);
+      console.log("rolledsixes", rolledSixes)
       let rolledStraight = unClickedDiceValues.sort(function(a, b){return a-b}).toString();
+      console.log("rolledstraight", rolledStraight)
       if(rolledOnes.length < 3) {
             onesTotal = (rolledOnes.length * 100);
       } if(rolledOnes.length === 3) {
@@ -250,7 +217,7 @@ const updateClickScore = () => {
       let tempScore = onesTotal + twosTotal + threesTotal + foursTotal + fivesTotal + sixesTotal +threeOnes + fourOnes + fiveOnes + threeFives + fourFives + fiveFives + largeStraight;
       roundScore = holdScore + tempScore;
       messageBoxEl.innerText = `${currentPlayer}, you have selected ${clickedDice.length} dice. Your current round score is ${roundScore}.`;
-      // clearRoundScore();
+      clearRoundScore();
 }
 const keepScore = () => {
       if(currentPlayer === 'Player 1') {
@@ -336,6 +303,7 @@ const clickDice = (event) => {
       let selectedDice = event.target;
       let clickedDiceIndex = clickedDice.indexOf(selectedDice);
       if(selectedDice.classList.contains("frozen")) return;
+      if(selectedDice.classList.contains("gray")) return;
       if(clickedDice.includes(selectedDice) === false) {
             clickedDice.push(selectedDice);
       } else {
@@ -367,13 +335,14 @@ const reRollDice = () => {
       isGamePaused = false;
       messageBoxEl.textContent = `${currentPlayer}, please select more dice.`;
       holdScore = roundScore;
+      roundScore = 0;
+      clearRoundScore();
       createDiceValues();
       reRollButtonEl.classList.add("hidden");
       scoreButtonEl.classList.add("hidden");
       freezeDice();
       clickedDice = []
       updateUnClickedScore();
-      clearRoundScore();
 }
 const createUnClickedArray = () => {
       unClickedDice = [];
@@ -383,9 +352,10 @@ const createUnClickedArray = () => {
 }
 const freezeDice = () => {
       for(let i = 0; i < clickedDice.length; i++) {
-            clickedDice[i].classList.remove('red');
-            clickedDice[i].classList.add('frozen');
-            
+            if(clickedDice[i].classList.contains('red')) {
+                  clickedDice[i].classList.remove('red');
+                  clickedDice[i].classList.add('frozen');
+            }
       }
 }
 
@@ -406,21 +376,25 @@ diceEl.addEventListener("click", clickDice);
 /*-----Player Score -----*/
 
 /*-----Clicking Dice-----*/
-// HARD: Dice should have value before they are clicked, so we can determine which dice to gray out
+// HARD: Should not be able to click dice to hold if they have no value
+      // Dice should have value before they are clicked, so we can determine which dice to gray out
       // To gray out dice, for each dice, if they DON'T meet score conditionals, gray them out.
       // HARD: Make unvaluable dice unclickable (and gray them out), make valuable dice clickable
 // MEDIUM: Add ability to re-roll and continue tabulating score after all 5 dice are clicked (reset clickedDice array)
       // When all 5 dice have value, add new button that says Keep Score and Roll again.
+
+
+
+
+
+
+
 
 // if unclickabledice length === 0
 // log holdscore
 // clear clickeddice
 // clear frozen class
 // don't change players
-
-
-
-
 
 // Dice sit in:
       // diceValues array (all dice)
