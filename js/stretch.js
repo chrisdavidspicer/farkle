@@ -73,6 +73,7 @@ const rollDice = () => {
       messageBoxEl.textContent = `${currentPlayer}, please select your dice.`;
       rollButtonEl.classList.add("hidden");
       holdScore = 0;
+      clearGray();
       clearOverlay();
       createUnClickedArray();
       createDiceValues();
@@ -89,32 +90,96 @@ const createDiceValues = () => {
             diceValues.push(allDice[i]);
       }
 }
-
-// if each array is less than 3, give it gray class, which can't be clicked, but will be rerolled.
-
-
-
-
-
 const updateUnClickedScore = () => {
+      
+
+      /*-----This is what I'm working on!-----*/
+      
+      // Push dice with parseInt(unClickedDice[i].dataset.value) into new array
+      // if that array is less than three, add gray class
+      // if that array is >= 3, parseInt, then check score.
+      // let newDiceArray = []
+      
+      
+      let diceArray2 = unClickedDice.filter(dice => dice.classList.contains('dice-2'));
+      console.log(diceArray2)
+      let diceArray3 = unClickedDice.filter(dice => dice.classList.contains('dice-3'));
+      console.log(diceArray3)
+      let diceArray4 = unClickedDice.filter(dice => dice.classList.contains('dice-4'));
+      console.log(diceArray4)
+      let diceArray6 = unClickedDice.filter(dice => dice.classList.contains('dice-6'));
+      console.log(diceArray6)
+
+      // If each new array is less than 3, add gray classlist.
+      if(diceArray2.length < 3) {
+            for(let i = 0; i < diceArray2.length; i++) {
+                  diceArray2[i].classList.add("gray");
+            }
+      }
+      if(diceArray3.length < 3) {
+            for(let i = 0; i < diceArray3.length; i++) {
+                  diceArray3[i].classList.add("gray");
+            }
+      }
+      if(diceArray4.length < 3) {
+            for(let i = 0; i < diceArray4.length; i++) {
+                  diceArray4[i].classList.add("gray");
+            }
+      }
+      if(diceArray6.length < 3) {
+            for(let i = 0; i < diceArray6.length; i++) {
+                  diceArray6[i].classList.add("gray");
+            }
+      }
+
+
+
+      // for(let i = 0; i < unClickedDice.length; i++) {
+      //       let diceArray0 = []
+      //       let diceArray1 = []
+      //       let diceArray2 = []
+      //       let diceArray3 = []
+      //       let diceArray4 = []
+      //       let diceArray5 = []
+      //       let diceArray6 = []
+      //       let diceArray7 = []
+      //       // let stringInt = [i].toString
+      //       let dataString = parseInt(unClickedDice[i].dataset.value)
+      //       console.log(dataString)
+      //       let newDiceArray = `diceArray${i}`
+      //       if(dataString === i) {
+      //             newDiceArray.push(i);
+      //             console.log(newDiceArray);
+      //       }
+      //       console.log(newDiceArray)
+            
+            // console.log(unClickedDice[i].dataset.value)
+            // console.log(newDiceArray)
+      // }
+      
+      // console.log(unClickedDice)
+      // console.log(diceArray1)
+      // console.log(diceArray2)
+      // console.log(diceArray3)
+      // console.log(diceArray4)
+      // console.log(diceArray5)
+      // console.log(diceArray6)
+      // console.log(diceArray7)
+
+      /*-----This is what I'm working on-----*/
+      
+      
       let unClickedDiceValues = [];
       for(let i = 0; i < unClickedDice.length; i++) {
             unClickedDiceValues.push(parseInt(unClickedDice[i].dataset.value));
       }
       let rolledOnes = unClickedDiceValues.filter(number => number === 1);
-      console.log("rolledones", rolledOnes)
       let rolledTwos = unClickedDiceValues.filter(number => number === 2);
-      console.log("rolledtwos", rolledTwos)
       let rolledThrees = unClickedDiceValues.filter(number => number === 3);
-      console.log("rolledthrees", rolledThrees)
       let rolledFours = unClickedDiceValues.filter(number => number === 4);
-      console.log("rolledfours", rolledFours)
       let rolledFives = unClickedDiceValues.filter(number => number === 5);
-      console.log("rolledfives", rolledFives)
       let rolledSixes = unClickedDiceValues.filter(number => number === 6);
-      console.log("rolledsixes", rolledSixes)
       let rolledStraight = unClickedDiceValues.sort(function(a, b){return a-b}).toString();
-      console.log("rolledstraight", rolledStraight)
       if(rolledOnes.length < 3) {
             onesTotal = (rolledOnes.length * 100);
       } if(rolledOnes.length === 3) {
@@ -126,6 +191,10 @@ const updateUnClickedScore = () => {
             fiveOnes = 1200;
       } if(rolledTwos.length >= 3) {
             twosTotal = 200;
+      // } if(rolledTwos.length <3) {
+      //       for(let i = 0; i < rolledTwos.length; i++) {
+      //             rolledTwos[i].classList.add('gray');
+      //       }
       } if(rolledThrees.length >= 3) {
             threesTotal = 300;
       } if(rolledFours.length >= 3) {
@@ -331,11 +400,19 @@ const clearOverlay = () => {
             }
       }
 }
+const clearGray = () => {
+      for(let i = 0; i < singleDiceEl.length; i++) {
+            if(singleDiceEl[i].classList.contains('gray')) {
+                  singleDiceEl[i].classList.remove('gray');
+            }
+      }
+}
 const reRollDice = () => {
       isGamePaused = false;
       messageBoxEl.textContent = `${currentPlayer}, please select more dice.`;
       holdScore = roundScore;
       roundScore = 0;
+      clearGray();
       clearRoundScore();
       createDiceValues();
       reRollButtonEl.classList.add("hidden");
@@ -358,6 +435,12 @@ const freezeDice = () => {
             }
       }
 }
+// const grayDice = () => {
+//       for(let i = 0; i < unClickedDice.length; i++) {
+//             unClickedDice[i].classList.add('gray');
+//       }
+// }
+
 
 /* Event Listeners */
 document.addEventListener('DOMContentLoaded', initialize);
