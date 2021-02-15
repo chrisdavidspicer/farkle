@@ -91,26 +91,18 @@ const createDiceValues = () => {
       }
 }
 const updateUnClickedScore = () => {
-      
-
       /*-----This is what I'm working on!-----*/
       
-      // Push dice with parseInt(unClickedDice[i].dataset.value) into new array
-      // if that array is less than three, add gray class
-      // if that array is >= 3, parseInt, then check score.
-      // let newDiceArray = []
-      
-      
-      let diceArray2 = unClickedDice.filter(dice => dice.classList.contains('dice-2'));
-      console.log(diceArray2)
-      let diceArray3 = unClickedDice.filter(dice => dice.classList.contains('dice-3'));
-      console.log(diceArray3)
-      let diceArray4 = unClickedDice.filter(dice => dice.classList.contains('dice-4'));
-      console.log(diceArray4)
-      let diceArray6 = unClickedDice.filter(dice => dice.classList.contains('dice-6'));
-      console.log(diceArray6)
+      // if(unClickedDice.length === 0) {
+      //       hide reRollButtonEl
+      //       show keepRolling button
+      // }
 
-      // If each new array is less than 3, add gray classlist.
+      /*-----This is what I'm working on-----*/
+      let diceArray2 = unClickedDice.filter(dice => dice.classList.contains('dice-2'));
+      let diceArray3 = unClickedDice.filter(dice => dice.classList.contains('dice-3'));
+      let diceArray4 = unClickedDice.filter(dice => dice.classList.contains('dice-4'));
+      let diceArray6 = unClickedDice.filter(dice => dice.classList.contains('dice-6'));
       if(diceArray2.length < 3) {
             for(let i = 0; i < diceArray2.length; i++) {
                   diceArray2[i].classList.add("gray");
@@ -131,44 +123,38 @@ const updateUnClickedScore = () => {
                   diceArray6[i].classList.add("gray");
             }
       }
-
-
-
-      // for(let i = 0; i < unClickedDice.length; i++) {
-      //       let diceArray0 = []
-      //       let diceArray1 = []
-      //       let diceArray2 = []
-      //       let diceArray3 = []
-      //       let diceArray4 = []
-      //       let diceArray5 = []
-      //       let diceArray6 = []
-      //       let diceArray7 = []
-      //       // let stringInt = [i].toString
-      //       let dataString = parseInt(unClickedDice[i].dataset.value)
-      //       console.log(dataString)
-      //       let newDiceArray = `diceArray${i}`
-      //       if(dataString === i) {
-      //             newDiceArray.push(i);
-      //             console.log(newDiceArray);
-      //       }
-      //       console.log(newDiceArray)
-            
-            // console.log(unClickedDice[i].dataset.value)
-            // console.log(newDiceArray)
-      // }
-      
-      // console.log(unClickedDice)
-      // console.log(diceArray1)
-      // console.log(diceArray2)
-      // console.log(diceArray3)
-      // console.log(diceArray4)
-      // console.log(diceArray5)
-      // console.log(diceArray6)
-      // console.log(diceArray7)
-
-      /*-----This is what I'm working on-----*/
-      
-      
+      if(diceArray2.length > 3) {
+            let newArray = []
+            newArray = diceArray2.slice(3)
+            for(let i = 0; i < newArray.length; i++) {
+                  newArray[i].classList.add("gray");
+            }
+            diceArray2.splice(3, 2)
+      }
+      if(diceArray3.length > 3) {
+            let newArray = []
+            newArray = diceArray3.slice(3)
+            for(let i = 0; i < newArray.length; i++) {
+                  newArray[i].classList.add("gray");
+            }
+            diceArray3.splice(3, 2)
+      }
+      if(diceArray4.length > 3) {
+            let newArray = []
+            newArray = diceArray4.slice(3)
+            for(let i = 0; i < newArray.length; i++) {
+                  newArray[i].classList.add("gray");
+            }
+            diceArray4.splice(3, 2)
+      }
+      if(diceArray6.length > 3) {
+            let newArray = []
+            newArray = diceArray6.slice(3)
+            for(let i = 0; i < newArray.length; i++) {
+                  newArray[i].classList.add("gray");
+            }
+            diceArray6.splice(3, 2)
+      }
       let unClickedDiceValues = [];
       for(let i = 0; i < unClickedDice.length; i++) {
             unClickedDiceValues.push(parseInt(unClickedDice[i].dataset.value));
@@ -191,10 +177,6 @@ const updateUnClickedScore = () => {
             fiveOnes = 1200;
       } if(rolledTwos.length >= 3) {
             twosTotal = 200;
-      // } if(rolledTwos.length <3) {
-      //       for(let i = 0; i < rolledTwos.length; i++) {
-      //             rolledTwos[i].classList.add('gray');
-      //       }
       } if(rolledThrees.length >= 3) {
             threesTotal = 300;
       } if(rolledFours.length >= 3) {
@@ -241,6 +223,10 @@ const updateUnClickedScore = () => {
       }
 }
 const updateClickScore = () => {
+      if(clickedDice.length === 0) {
+            scoreButtonEl.classList.add("hidden");
+            reRollButtonEl.classList.add("hidden");
+      }
       let clickedDiceValues = [];
       for(let i = 0; i < clickedDice.length; i++) {
             clickedDiceValues.push(parseInt(clickedDice[i].dataset.value));
@@ -276,16 +262,32 @@ const updateClickScore = () => {
             fourFives = 550;
       } if(rolledFives.length === 5) {
             fiveFives = 600;
-      }if(rolledSixes.length >= 3) {
+      } if(rolledSixes.length >= 3) {
             sixesTotal = 600;
-      }if(rolledStraight === "1,2,3,4,5") {
+      } if(rolledStraight === "1,2,3,4,5") {
             largeStraight = 1500;
             onesTotal = 0;
             fivesTotal = 0;
+      } if(rolledTwos.length < 3) {
+            scoreButtonEl.classList.add("hidden");
+            reRollButtonEl.classList.add("hidden");
+      } if(rolledThrees.length < 3) {
+            scoreButtonEl.classList.add("hidden");
+            reRollButtonEl.classList.add("hidden");
+      } if(rolledFours.length < 3) {
+            scoreButtonEl.classList.add("hidden");
+            reRollButtonEl.classList.add("hidden");
+      } if(rolledSixes.length < 3) {
+            scoreButtonEl.classList.add("hidden");
+            reRollButtonEl.classList.add("hidden");
       }
       let tempScore = onesTotal + twosTotal + threesTotal + foursTotal + fivesTotal + sixesTotal +threeOnes + fourOnes + fiveOnes + threeFives + fourFives + fiveFives + largeStraight;
       roundScore = holdScore + tempScore;
       messageBoxEl.innerText = `${currentPlayer}, you have selected ${clickedDice.length} dice. Your current round score is ${roundScore}.`;
+      if(tempScore > 0) {
+            scoreButtonEl.classList.remove("hidden");
+            reRollButtonEl.classList.remove("hidden");
+      }
       clearRoundScore();
 }
 const keepScore = () => {
@@ -385,13 +387,9 @@ const clickDice = (event) => {
                   return;
             }
             selectedDice.classList.toggle('red');
-            if(clickedDice.length > 0) {
-                  scoreButtonEl.classList.remove("hidden");
-            }
       }
       updateClickScore();
       unClickedDice = diceValues.filter(dice => !dice.classList.contains('red'));
-      reRollButtonEl.classList.remove("hidden");
 }
 const clearOverlay = () => {
       for(let i = 0; i < singleDiceEl.length; i++) {
@@ -412,6 +410,7 @@ const reRollDice = () => {
       messageBoxEl.textContent = `${currentPlayer}, please select more dice.`;
       holdScore = roundScore;
       roundScore = 0;
+      keepRolling();
       clearGray();
       clearRoundScore();
       createDiceValues();
@@ -419,6 +418,7 @@ const reRollDice = () => {
       scoreButtonEl.classList.add("hidden");
       freezeDice();
       clickedDice = []
+      // createUnClickedArray();
       updateUnClickedScore();
 }
 const createUnClickedArray = () => {
@@ -435,12 +435,20 @@ const freezeDice = () => {
             }
       }
 }
-// const grayDice = () => {
-//       for(let i = 0; i < unClickedDice.length; i++) {
-//             unClickedDice[i].classList.add('gray');
-//       }
-// }
-
+const keepRolling = () => {
+      if(unClickedDice.length === 0) {
+            for(let i = 0; i < singleDiceEl.length; i++) {
+                  if(singleDiceEl[i].classList.contains('red')) {
+                        singleDiceEl[i].classList.remove('red');
+                  }
+                  if(singleDiceEl[i].classList.contains('frozen')) {
+                        singleDiceEl[i].classList.remove('frozen');
+                  }
+            }
+      } else {
+            return
+      }
+}
 
 /* Event Listeners */
 document.addEventListener('DOMContentLoaded', initialize);
@@ -459,16 +467,9 @@ diceEl.addEventListener("click", clickDice);
 /*-----Player Score -----*/
 
 /*-----Clicking Dice-----*/
-// HARD: Should not be able to click dice to hold if they have no value
-      // Dice should have value before they are clicked, so we can determine which dice to gray out
-      // To gray out dice, for each dice, if they DON'T meet score conditionals, gray them out.
-      // HARD: Make unvaluable dice unclickable (and gray them out), make valuable dice clickable
 // MEDIUM: Add ability to re-roll and continue tabulating score after all 5 dice are clicked (reset clickedDice array)
-      // When all 5 dice have value, add new button that says Keep Score and Roll again.
-
-
-
-
+      // When all 5 dice have value, add new button that says Keep Score and Roll again. Or empty arrays and just reroll.
+// debug graying out of large straight
 
 
 
