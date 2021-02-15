@@ -39,7 +39,7 @@ const rollButtonEl = document.querySelector('#roll-button');
 const reRollButtonEl = document.querySelector('#re-roll-button');
 const scoreButtonEl = document.querySelector('#keep-score-button');
 const resetButtonEl = document.querySelector('#reset-button');
-const keepRollingButtonEl = document.querySelector('#keep-rolling-button')
+const keepRollingButtonEl = document.querySelector('#keep-rolling-button');
 const diceEl = document.querySelector('.all-dice');
 const singleDiceEl = document.querySelectorAll('.dice');
 const messageBoxEl = document.querySelector('#message-box');
@@ -93,14 +93,6 @@ const createDiceValues = () => {
       }
 }
 const updateUnClickedScore = () => {
-      /*-----This is what I'm working on!-----*/
-      
-      // if(unClickedDice.length === 0) {
-      //       reRollButtonEl.classList.add("hidden");
-      //       keepRollingButtonEl.classList.remove("hidden");
-      // }
-
-      /*-----This is what I'm working on-----*/
       let diceArray2 = unClickedDice.filter(dice => dice.classList.contains('dice-2'));
       let diceArray3 = unClickedDice.filter(dice => dice.classList.contains('dice-3'));
       let diceArray4 = unClickedDice.filter(dice => dice.classList.contains('dice-4'));
@@ -126,36 +118,36 @@ const updateUnClickedScore = () => {
             }
       }
       if(diceArray2.length > 3) {
-            let newArray = []
-            newArray = diceArray2.slice(3)
+            let newArray = [];
+            newArray = diceArray2.slice(3);
             for(let i = 0; i < newArray.length; i++) {
                   newArray[i].classList.add("gray");
             }
-            diceArray2.splice(3, 2)
+            diceArray2.splice(3, 2);
       }
       if(diceArray3.length > 3) {
-            let newArray = []
-            newArray = diceArray3.slice(3)
+            let newArray = [];
+            newArray = diceArray3.slice(3);
             for(let i = 0; i < newArray.length; i++) {
                   newArray[i].classList.add("gray");
             }
-            diceArray3.splice(3, 2)
+            diceArray3.splice(3, 2);
       }
       if(diceArray4.length > 3) {
-            let newArray = []
-            newArray = diceArray4.slice(3)
+            let newArray = [];
+            newArray = diceArray4.slice(3);
             for(let i = 0; i < newArray.length; i++) {
                   newArray[i].classList.add("gray");
             }
-            diceArray4.splice(3, 2)
+            diceArray4.splice(3, 2);
       }
       if(diceArray6.length > 3) {
-            let newArray = []
-            newArray = diceArray6.slice(3)
+            let newArray = [];
+            newArray = diceArray6.slice(3);
             for(let i = 0; i < newArray.length; i++) {
                   newArray[i].classList.add("gray");
             }
-            diceArray6.splice(3, 2)
+            diceArray6.splice(3, 2);
       }
       let unClickedDiceValues = [];
       for(let i = 0; i < unClickedDice.length; i++) {
@@ -198,6 +190,7 @@ const updateUnClickedScore = () => {
             largeStraight = 1500;
             onesTotal = 0;
             fivesTotal = 0;
+            clearGray();
       }
       let tempScore = onesTotal + twosTotal + threesTotal + foursTotal + fivesTotal + sixesTotal +threeOnes + fourOnes + fiveOnes + threeFives + fourFives + fiveFives + largeStraight;
       if(tempScore === 0) {
@@ -380,11 +373,17 @@ const clickDice = (event) => {
             reRollButtonEl.classList.add("hidden");
             keepRollingButtonEl.classList.remove("hidden");
       }
+      if(unClickedDice.length === 0) {
+            keepRollingButtonEl.classList.add("hidden");
+      }
       let selectedDice = event.target;
       let clickedDiceIndex = clickedDice.indexOf(selectedDice);
       if(selectedDice.classList.contains("frozen")) return;
       if(selectedDice.classList.contains("gray")) return;
       if(clickedDice.includes(selectedDice) === false) {
+            if(selectedDice == diceEl) {
+                  return;
+            }
             clickedDice.push(selectedDice);
       } else {
             clickedDice.splice(clickedDiceIndex, 1);
@@ -425,7 +424,7 @@ const reRollDice = () => {
       reRollButtonEl.classList.add("hidden");
       scoreButtonEl.classList.add("hidden");
       freezeDice();
-      clickedDice = []
+      clickedDice = [];
       updateUnClickedScore();
 }
 const createUnClickedArray = () => {
@@ -457,6 +456,7 @@ const keepRolling = () => {
             }
       }
       clickedDice = [];
+      createUnClickedArray();
       createDiceValues();
       reRollButtonEl.classList.add("hidden");
       scoreButtonEl.classList.add("hidden");
@@ -473,33 +473,6 @@ resetButtonEl.addEventListener("click", initialize);
 keepRollingButtonEl.addEventListener("click", keepRolling);
 diceEl.addEventListener("click", clickDice);
 
-/*------Game End------*/
-
-/*-----Roll Button-----*/
-
-/*-----Keep Score Button-----*/
-
-/*-----Player Score -----*/
-
-/*-----Clicking Dice-----*/
-// MEDIUM: Add ability to re-roll and continue tabulating score after all 5 dice are clicked (reset clickedDice array)
-      // When all 5 dice have value, add new button that says Keep Score and Roll again. Or empty arrays and just reroll.
-// debug graying out of large straight
-
-
-
-
-// if unclickabledice length === 0
-// log holdscore
-// clear clickeddice
-// clear frozen class
-// don't change players
-
-// Dice sit in:
-      // diceValues array (all dice)
-      // class of dice (all dice)
-      // class of dice-X (individual dice of same number)
-      // individual dataset value (individual dice of same number)
-      // class of red (dice divs of clicked dice)
-      // clickedDice array (dice divs of clicked dice)
-      // clickedDiceValues array (integer values of clicked dice)
+/*-----Debugging-----*/
+// debug a scoring issue where three of a kind temporarily adds to round score after roll again button?
+// debug rolling issue, where you can keep aside part of a three of a kind
