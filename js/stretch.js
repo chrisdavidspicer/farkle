@@ -39,6 +39,7 @@ const rollButtonEl = document.querySelector('#roll-button');
 const reRollButtonEl = document.querySelector('#re-roll-button');
 const scoreButtonEl = document.querySelector('#keep-score-button');
 const resetButtonEl = document.querySelector('#reset-button');
+const keepRollingButtonEl = document.querySelector('#keep-rolling-button')
 const diceEl = document.querySelector('.all-dice');
 const singleDiceEl = document.querySelectorAll('.dice');
 const messageBoxEl = document.querySelector('#message-box');
@@ -64,6 +65,7 @@ const initialize = () => {
       scoreButtonEl.classList.add("hidden");
       resetButtonEl.classList.add("hidden");
       reRollButtonEl.classList.add("hidden");
+      keepRollingButtonEl.classList.add("hidden");
       clearOverlay();
       createUnClickedArray();
       createDiceValues();
@@ -94,8 +96,8 @@ const updateUnClickedScore = () => {
       /*-----This is what I'm working on!-----*/
       
       // if(unClickedDice.length === 0) {
-      //       hide reRollButtonEl
-      //       show keepRolling button
+      //       reRollButtonEl.classList.add("hidden");
+      //       keepRollingButtonEl.classList.remove("hidden");
       // }
 
       /*-----This is what I'm working on-----*/
@@ -284,9 +286,11 @@ const updateClickScore = () => {
       let tempScore = onesTotal + twosTotal + threesTotal + foursTotal + fivesTotal + sixesTotal +threeOnes + fourOnes + fiveOnes + threeFives + fourFives + fiveFives + largeStraight;
       roundScore = holdScore + tempScore;
       messageBoxEl.innerText = `${currentPlayer}, you have selected ${clickedDice.length} dice. Your current round score is ${roundScore}.`;
+      if(tempScore > 0 && unClickedDice.length > 1) {
+            reRollButtonEl.classList.remove("hidden");
+      }
       if(tempScore > 0) {
             scoreButtonEl.classList.remove("hidden");
-            reRollButtonEl.classList.remove("hidden");
       }
       clearRoundScore();
 }
@@ -308,6 +312,7 @@ const keepScore = () => {
       checkForWin();
       isGamePaused = true;
       reRollButtonEl.classList.add("hidden");
+      keepRollingButtonEl.classList.add("hidden");
 }
 const checkForWin = () => {
       if(player1Score >= 5000) {
@@ -371,6 +376,10 @@ const endGame = () => {
 }
 const clickDice = (event) => {
       if(isGamePaused === true) return;
+      if(unClickedDice.length === 1) {
+            reRollButtonEl.classList.add("hidden");
+            keepRollingButtonEl.classList.remove("hidden");
+      }
       let selectedDice = event.target;
       let clickedDiceIndex = clickedDice.indexOf(selectedDice);
       if(selectedDice.classList.contains("frozen")) return;
@@ -410,7 +419,6 @@ const reRollDice = () => {
       messageBoxEl.textContent = `${currentPlayer}, please select more dice.`;
       holdScore = roundScore;
       roundScore = 0;
-      keepRolling();
       clearGray();
       clearRoundScore();
       createDiceValues();
@@ -418,7 +426,6 @@ const reRollDice = () => {
       scoreButtonEl.classList.add("hidden");
       freezeDice();
       clickedDice = []
-      // createUnClickedArray();
       updateUnClickedScore();
 }
 const createUnClickedArray = () => {
@@ -436,18 +443,25 @@ const freezeDice = () => {
       }
 }
 const keepRolling = () => {
-      if(unClickedDice.length === 0) {
-            for(let i = 0; i < singleDiceEl.length; i++) {
-                  if(singleDiceEl[i].classList.contains('red')) {
-                        singleDiceEl[i].classList.remove('red');
-                  }
-                  if(singleDiceEl[i].classList.contains('frozen')) {
-                        singleDiceEl[i].classList.remove('frozen');
-                  }
+      isGamePaused = false;
+      messageBoxEl.textContent = `${currentPlayer}, please select more dice.`;
+      holdScore = roundScore;
+      roundScore = 0;
+      clearRoundScore();
+      for(let i = 0; i < singleDiceEl.length; i++) {
+            if(singleDiceEl[i].classList.contains('red')) {
+                  singleDiceEl[i].classList.remove('red');
             }
-      } else {
-            return
+            if(singleDiceEl[i].classList.contains('frozen')) {
+                  singleDiceEl[i].classList.remove('frozen');
+            }
       }
+      clickedDice = [];
+      createDiceValues();
+      reRollButtonEl.classList.add("hidden");
+      scoreButtonEl.classList.add("hidden");
+      keepRollingButtonEl.classList.add("hidden");
+      updateUnClickedScore();
 }
 
 /* Event Listeners */
@@ -456,6 +470,7 @@ rollButtonEl.addEventListener("click", rollDice);
 reRollButtonEl.addEventListener("click", reRollDice);
 scoreButtonEl.addEventListener("click", keepScore);
 resetButtonEl.addEventListener("click", initialize);
+keepRollingButtonEl.addEventListener("click", keepRolling);
 diceEl.addEventListener("click", clickDice);
 
 /*------Game End------*/
