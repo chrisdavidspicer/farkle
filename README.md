@@ -1,7 +1,7 @@
-# Project 1: Roll to 5000!
+# Project 1: Farkle!
 ## A Dice Game for the Whole Family
 
-Roll to 5000 is a dice game that pits your luck against your probability skills, with a little bit of strategy thrown in! Two players will face off, rolling dice to see if they can find valuable combinations. Then they must make a difficult decision: keep the points or test their luck and roll for more!
+Farkle is a dice game that pits your luck against your probability skills, with a little bit of strategy thrown in! Two players will face off, rolling dice to see if they can find valuable combinations. Then they must make a difficult decision: keep the points or test their luck and roll for more!
 
 This is a fun game that uses a lot of the skills we’ve been using in class over the first couple weeks. There’s a lot of functionality, win and loss states, combinations, and possibilities of actions to take during a turn. It will be a fun and interesting challenge to code my way through the game, plugging in certain functions depending upon many conditionals, and looping through a lot of arrays. It seems like a good test on my current skills, while also having a reasonable scope for the project time limit. And I also think it will be fun to play when it’s complete!
 
