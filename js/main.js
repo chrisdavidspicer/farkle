@@ -354,20 +354,21 @@ const changePlayers = () => {
       clearRoundScore();
 }
 const endGame = () => {
-            messageBoxEl.textContent = `${currentPlayer}, you reached 5000 points! You win!`;
-            rollButtonEl.classList.add("hidden");
-            scoreButtonEl.classList.add("hidden");
-            reRollButtonEl.classList.add("hidden")
-            resetButtonEl.classList.remove("hidden");
-            if(currentPlayer === "Player 1") {
-                  player1Wins += 1;
-                  wins1.innerText = player1Wins;
-            } else {
-                  player2Wins += 1;
-                  wins2.innerText = player2Wins;
-            }
+      messageBoxEl.textContent = `${currentPlayer}, you reached 5000 points! You win!`;
+      rollButtonEl.classList.add("hidden");
+      scoreButtonEl.classList.add("hidden");
+      reRollButtonEl.classList.add("hidden")
+      resetButtonEl.classList.remove("hidden");
+      if(currentPlayer === "Player 1") {
+            player1Wins += 1;
+            wins1.innerText = player1Wins;
+      } else {
+            player2Wins += 1;
+            wins2.innerText = player2Wins;
+      }
 }
 const clickDice = (event) => {
+      clearRoundScore();
       if(isGamePaused === true) return;
       if(unClickedDice.length === 1) {
             reRollButtonEl.classList.add("hidden");
@@ -463,6 +464,14 @@ const keepRolling = () => {
       keepRollingButtonEl.classList.add("hidden");
       updateUnClickedScore();
 }
+const grayButton = (event) => {
+      let selectedElement = event.target;
+      if(selectedElement.classList.contains("gray")) {
+            selectedElement.classList.remove("gray");
+      } else {
+            selectedElement.classList.add("gray");
+      }
+}
 
 /* Event Listeners */
 document.addEventListener('DOMContentLoaded', initialize);
@@ -472,7 +481,13 @@ scoreButtonEl.addEventListener("click", keepScore);
 resetButtonEl.addEventListener("click", initialize);
 keepRollingButtonEl.addEventListener("click", keepRolling);
 diceEl.addEventListener("click", clickDice);
-
-/*-----Debugging-----*/
-// debug a scoring issue where three of a kind temporarily adds to round score after roll again button?
-// debug rolling issue, where you can keep aside part of a three of a kind
+rollButtonEl.addEventListener("mouseenter", grayButton);
+reRollButtonEl.addEventListener("mouseenter", grayButton);
+scoreButtonEl.addEventListener("mouseenter", grayButton);
+resetButtonEl.addEventListener("mouseenter", grayButton);
+keepRollingButtonEl.addEventListener("mouseenter", grayButton);
+rollButtonEl.addEventListener("mouseleave", grayButton);
+reRollButtonEl.addEventListener("mouseleave", grayButton);
+scoreButtonEl.addEventListener("mouseleave", grayButton);
+resetButtonEl.addEventListener("mouseleave", grayButton);
+keepRollingButtonEl.addEventListener("mouseleave", grayButton);
